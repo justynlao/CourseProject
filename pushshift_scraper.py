@@ -4,6 +4,7 @@ import datetime as dt
 
 # Player name dictionary; keys for csv file names, values for querying
 PLAYERS = {"steph": "Stephen Curry", "lebron": "Lebron James", "durant": "Kevin Durant"}
+# PLAYERS = {"westbrook": "Russell Westbrook"}
 # Individual years to get data from
 YEARS = [2018, 2019, 2020]
 
@@ -25,7 +26,7 @@ class RedditScraper:
                                                       before=self.before, after=self.after, filter="title", sort_type="score")
             titles_df = pd.DataFrame(submissions)['title']
             titles_df = titles_df.replace(r'\n', ' ', regex=True)
-            titles_df.to_csv(f'./data/{key}_titles_{year}.csv', header=False, index=False, encoding='utf-8')
+            titles_df.to_csv(f'./data/{key}_data/{key}_titles_{year}.csv', header=False, index=False, encoding='utf-8')
 
     def get_comments(self, queries, year):
         """ Retrieves comments on given queries. """
@@ -35,7 +36,7 @@ class RedditScraper:
                                                 before=self.before, after=self.after, filter="body")
             comments_df = pd.DataFrame(comments)['body']
             comments_df = comments_df.replace(r'\n', ' ', regex=True)
-            comments_df.to_csv(f'./data/{key}_comments_{year}.csv', header=False, index=False, encoding='utf-8')
+            comments_df.to_csv(f'./data/{key}_data/{key}_comments_{year}.csv', header=False, index=False, encoding='utf-8')
 
     def get_comments_by_id(self, queries, year):
         """ Retrieves comments in submissions on given queries. """
@@ -46,7 +47,7 @@ class RedditScraper:
             comments = self.api.search_comments(ids=comment_ids, filter="body")
             comments_df = pd.DataFrame(comments)
             comments_df = comments_df.replace(r'\n', ' ', regex=True)
-            comments_df.to_csv(f'./data/{key}_comments_{year}.csv', header=False, index=False, encoding='utf-8')
+            comments_df.to_csv(f'./data/{key}_data/{key}_comments_{year}.csv', header=False, index=False, encoding='utf-8')
 
     def get_submission_ids(self, query):
         """ Retrieves submission ids on a given query. """
@@ -68,9 +69,9 @@ def main():
     for year in YEARS:
         before = int(dt.datetime(year, 12, 1, 0, 0).timestamp())
         after = int(dt.datetime(year, 1, 1, 0, 0).timestamp())
-        nba_scraper = RedditScraper("nba", before, after, 500, 10000)
+        nba_scraper = RedditScraper("nba", before, after, 5000, 10000)
         nba_scraper.get_submission_titles(PLAYERS, year)
-        nba_scraper.get_comments(PLAYERS, year)
+        # nba_scraper.get_comments(PLAYERS, year)
 
 
 if __name__ == "__main__":

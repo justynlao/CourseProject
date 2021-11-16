@@ -4,6 +4,7 @@ import re
 
 # Player name dictionary; keys for csv file names, values for querying
 PLAYERS = {"steph": "Stephen Curry", "lebron": "Lebron James", "durant": "Kevin Durant"}
+# PLAYERS = {"westbrook": "Russell Westbrook"}
 # Individual years to get data from
 YEARS = [2018, 2019, 2020]
 
