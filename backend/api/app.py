@@ -1,14 +1,20 @@
 from flask import Flask
 from flask_pymongo import PyMongo
 from bson.json_util import dumps
+from dotenv import load_dotenv
 import os
 
+
+# Get database information from config file
+load_dotenv("../.env")
+db_user = os.getenv("DB_USER")
+db_pass = os.getenv("DB_PASS")
+
+# Create Flask app
 app = Flask(__name__)
 
 # Connect to MongoDB database
-db_user = os.environ.get('DB_USER')
-db_pass = os.environ.get('DB_PASS')
-app.config["MONGO_URI"] = f'mongodb+srv://{db_user}:{db_pass}@cluster0.yfg5a.mongodb.net/playerSentiments?retryWrites=true&w=majority'
+app.config["MONGO_URI"] = f"mongodb+srv://{db_user}:{db_pass}@cluster0.yfg5a.mongodb.net/playerSentiments?retryWrites=true&w=majority"
 mongo = PyMongo(app)
 db = mongo.db
 

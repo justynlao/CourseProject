@@ -3,14 +3,16 @@ import pandas as pd
 import re
 from nba_api.stats.static import players
 from pymongo import MongoClient
+from dotenv import load_dotenv
 import os
 
 
 # Establish mongodb connection
-db_user = os.environ.get('DB_USER')
-db_pass = os.environ.get('DB_PASS')
+load_dotenv(".env")
+db_user = os.getenv("DB_USER")
+db_pass = os.getenv("DB_PASS")
 
-client = MongoClient(f'mongodb+srv://{db_user}:{db_pass}@cluster0.yfg5a.mongodb.net/myFirstDatabase?retryWrites=true&w=majority')
+client = MongoClient(f"mongodb+srv://{db_user}:{db_pass}@cluster0.yfg5a.mongodb.net/playerSentiments?retryWrites=true&w=majority")
 db = client.playerSentiments
 players_collection = db.players
 
