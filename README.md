@@ -1,6 +1,8 @@
 # NBA Subreddit Player Sentiment Analysis
 This application compiles data from the r/nba subreddit and performs sentiment analysis on posts/comments for all active players for the 2021 NBA season. The web application displays the results along with doughnut charts to visualize the data.
 
+URL: https://nba-sentiment-frontend.vercel.app/
+
 ## Table of Contents
 1. [Introduction](#introduction)
 2. [Code Overview](#codeoverview)
@@ -8,8 +10,10 @@ This application compiles data from the r/nba subreddit and performs sentiment a
     2. [Sentiment Analysis](#sentimentanalysis)
     3. [Creating a Flask API](#api)
     4. [Making a Web App](#webapp)
+    5. [Deploying the Web App](#deployingwebapp)
 3. [Using the Application](#usingtheapplication)
-4. [Built With](#builtwith)
+4. [Evaluation of Results](#evaluation)
+5. [Built With](#builtwith)
 
 ## Introduction <a name="introduction"></a>
 The NBA has hundreds of players, along with millions of fans that have their own favorite players, as well as their own hated players. The NBA Subreddit provides insight on which players might be liked and which players might be disliked by the general community, as the subreddit has upwards of 4 million subscribers.
@@ -46,7 +50,7 @@ analyze_comments()
 The main process of both the functions is as follows: For each csv file, first clean irrelevant characters from the data. Next, initialize the NLTK Sentiment Analyzer, and store the polarity scores in an array. Then, convert the scores array into a pandas dataframe in order to easily label the data. I decided to use a threshold of [-0.2, 0.2] to determine labels. Compound scores above 0.2 were labeled positive and scores below 0.2 were labeled negative. Scores in between the thresholds were considered neutral. Lastly, counts of each label were determined and stored in a database.
 
 ### Creating a Flask API <a name="api"></a>
-In order to then provide this data to a frontend, I created a simple Flask REST API. The API contains two endpoints for getting data.
+In order to then provide this data to a frontend, I created a simple Flask REST API. The API contains two endpoints for getting data. I deployed the api through heroku.
 
 #### /backend/api/app.py
 The file initializes two routes.
@@ -62,7 +66,20 @@ The final step of the project was building a frontend to display the data in a m
 
 In terms of the application itself, there are a few key features. Every player is displayed on a "card", along with a decimal number. For the number, I decided to establish a positivity index calculated by (number of positives / number of negatives). I decided on this with YouTube's like/dislike ratio in mind. Based on the results, I then decided on thresholds of 3.0 and 2.0. Greater than 3.0 is positive, greater than 2.0 is neutral, and below that is negative. Each player "card" then routes to an individual player page, which most notably features a Doughnut chart visualizing the counts of each label (positive, neutral, negative). 
 
+### Deploying the Web App <a name="deployingwebapp"></a>
+I ran into many difficulties when trying to deploy the Web Application. I initially used my Flask API on heroku to fetch data for my frontend. However, with Next.js and its static generation, my application was unable to build due to heroku's inactive "sleep" status for its free tier. When the API is in "sleep" mode, my frontend was not able to successfully retrieve a response. I then tried other deployment options, such as Google Cloud, to no avail.
+
+Thus, I opted to query my database directly from my frontend. This way, I could guarantee quick access to the cloud hosted data on MongoDB. With that issue solved, I was able to successfully deploy my app on Vercel.
+
 ## Using the Application <a name="usingtheapplication"></a>
+The web application is relatively simple, as it is moreso a visualization of data. The home page features a list of every single active player (excluding those with insufficient data). Each player card displays a picture, name, a positivity ratio, and an icon representing the positivity.
+
+Each player card can be clicked on, which sends the user to an individual player page. The individual player pages include an additional Doughnut chart, visualizing the ratios of positive, negative, and neutral titles/comments. Hovering over sections of the chart also show the exact number of each.
+
+## Evaluation of Results <a name="evaluation"></a>
+As an active browser of the r/nba subreddit, I found that the Sentiment Analysis results for some players were more or less reasonable. Players like Patrick Beverly and Kyrie Irving having more negative mentions made sense to me, as Beverly has an infamous reputation for being scrappy and "dirty". Likewise, Kyrie Irving has been especially disliked in the last year with his avoidance of the covid vaccine. Star players like Stephen Curry, Lebron James, and Kevin Durant all being around average also made sense. Superstars, while well liked by their fans, also have many on the opposite spectrum. Whenever a star player has a bad game, haters rush in to make posts and comments.
+
+Unfortunately, there were aspects of the analysis that fell short with regards to accuracy. Some player names themselves are words with positive sentiment, as evidenced by the results. Players like Kevin Love, the Holiday brothers, and Precious Achiuwa had extremely high positivity ratios due to their names. Titles and comments that would otherwise be neutral were rendered positive due to the positive connotation existing in the names, like "Love", "Holiday", and "Precious".
 
 ## Built With <a name="builtwith"></a>
 #### Backend
