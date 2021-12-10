@@ -73,13 +73,20 @@ Thus, I opted to query my database directly from my frontend. This way, I could 
 
 ## Using the Application <a name="usingtheapplication"></a>
 The web application is relatively simple, as it is moreso a visualization of data. The home page features a list of every single active player (excluding those with insufficient data). Each player card displays a picture, name, a positivity ratio, and an icon representing the positivity.
+![image](nba-sentiments-home.PNG)
 
-Each player card can be clicked on, which sends the user to an individual player page. The individual player pages include an additional Doughnut chart, visualizing the ratios of positive, negative, and neutral titles/comments. Hovering over sections of the chart also show the exact number of each.
+Each player card can be clicked on, which sends the user to an individual player page. 
+![image](nba-sentiments-card.PNG)
+
+The individual player pages include an additional Doughnut chart, visualizing the ratios of positive, negative, and neutral titles/comments. Hovering over sections of the chart also show the exact number of each.
+![image](nba-sentiments-player.PNG)
 
 ## Evaluation of Results <a name="evaluation"></a>
 As an active browser of the r/nba subreddit, I found that the Sentiment Analysis results for some players were more or less reasonable. Players like Patrick Beverly and Kyrie Irving having more negative mentions made sense to me, as Beverly has an infamous reputation for being scrappy and "dirty". Likewise, Kyrie Irving has been especially disliked in the last year with his avoidance of the covid vaccine. Star players like Stephen Curry, Lebron James, and Kevin Durant all being around average also made sense. Superstars, while well liked by their fans, also have many on the opposite spectrum. Whenever a star player has a bad game, haters rush in to make posts and comments.
 
 Unfortunately, there were aspects of the analysis that fell short with regards to accuracy. Some player names themselves are words with positive sentiment, as evidenced by the results. Players like Kevin Love, the Holiday brothers, and Precious Achiuwa had extremely high positivity ratios due to their names. Titles and comments that would otherwise be neutral were rendered positive due to the positive connotation existing in the names, like "Love", "Holiday", and "Precious".
+
+Furthermore, many of the lesser known players had very little data to go off of, so certain results were skewed due to sample size. A player like Keita Bates-Diop had a measely positivity ratio of 1.25, but there were also less than 30 data points to analyze.
 
 ## Built With <a name="builtwith"></a>
 #### Backend
