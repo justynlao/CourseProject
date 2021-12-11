@@ -2,6 +2,7 @@
 This application compiles data from the r/nba subreddit and performs sentiment analysis on posts/comments for all active players for the 2021 NBA season. The web application displays the results along with doughnut charts to visualize the data.
 
 URL: https://nba-sentiment-frontend.vercel.app/
+Video Presentation: https://drive.google.com/file/d/1shGXxqr9m6WY_aGcAXZ1d4OKqrkZiMny/view?usp=sharing
 
 ## Table of Contents
 1. [Introduction](#introduction)
